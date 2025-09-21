@@ -14,12 +14,9 @@ from pathlib import Path
 import environ
 import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
 env = environ.Env()
-env.Env.read_env(os.path.join(BASE_DIR, ".env"))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 SECRET_KEY = env('SECRET_KEY')
 
@@ -30,6 +27,7 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
+AUTH_USER_MODEL = "listings.User"
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,12 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Third-party services
-    'rest-framework',
+    'rest_framework',
     'corsheaders',
     'drf_yasg',
+    'django_seed',
 
     # Local apps
-    'listings'
+    'listings.apps.ListingsConfig'
 ]
 
 MIDDLEWARE = [
